@@ -1,0 +1,81 @@
+body {
+    background-color:#f7f7f7;
+}
+
+.ecpiform{
+    padding: 20px;
+}
+
+.ecpicards{
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: stretch;
+
+}
+.ecpicardscontainer{
+    position: relative;
+    background: rgba(255, 255, 255, 0.5);
+    max-width: 90%;
+    margin: auto;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    
+    
+}
+.card{
+    margin: 20px;
+    padding: 1px;
+    flex:  0 1 calc(33.33%-20px);
+    
+}
+
+.ecpiLogo{
+    display: flex;
+    margin: auto;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.cardimage{
+    max-width: 100px;
+    height: fit-content;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.carddesc{
+    height: 150px; 
+    -webkit-mask-image: linear-gradient(180deg, #000 80%, transparent);
+
+}
+.ecpialert{
+    margin: auto;
+    max-width: 97%;
+}
+.imagecontainer{
+    height: 125px;
+    margin: auto;
+}
+
+.cardimageS{
+    max-width: 100px;
+    height: fit-content;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 50%;
+  
+
+}
+
+.carddescS{
+    height: 75px; 
+    -webkit-mask-image: linear-gradient(180deg, #000 85%, transparent);
+
+}
+.back{
+    text-decoration: none;
+    color: white;
+    font-size: 40px;
+    margin: auto;
+    padding-right: 15px;
+}
