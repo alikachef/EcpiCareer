@@ -1,5 +1,13 @@
 <?php 
-include "dbConnect.php";
+session_start();
+
+if (isset($_SESSION['User'])){
+    include "dbConnect.php";
+}
+else {
+   header("Location:login.php?Empty= Please login to access");
+}
+
 $id = $_GET['id'];
 ?>
 
@@ -18,7 +26,14 @@ $id = $_GET['id'];
     <img class="ecpiLogo" src="./Assets/ECPI_Online.png"/>
     <nav class="navbar navbar-dark bg-dark">
         <h2 class="p-2 text-white"><a href="get_feilds.php" class="back">&#8249;</a>Students</h2>
-        <a href="add_students.php?id=<?php echo $id ?>"  id="addButton" class="m-2 btn btn-success">Add a Student</a>
+        <div>
+            <?php
+                if($_SESSION['Role'] == "admin"){
+                    echo '<a href="add_students.php?id=<?php echo $id ?>"  id="addButton" class="m-2 btn btn-success">Add a Student</a>';
+                }
+            ?>
+            <a  class="m-2 btn btn-outline-light" href="logout.php?logout">logout</a>
+        </div>
     </nav>
     
     <div class="ecpicardscontainer">
@@ -35,7 +50,7 @@ $id = $_GET['id'];
     </div>
         <div class="ecpicards">
     <?php 
-        $sql = "SELECT * FROM `ecpiregistery`.`students` WHERE feildID = '$id'  ";
+        $sql = "SELECT * FROM `students` WHERE feildID = '$id'  ";
         $result = mysqli_query($conn, $sql);
 
         while ($row = mysqli_fetch_assoc($result)){
@@ -51,8 +66,12 @@ $id = $_GET['id'];
                     <p>Expected Graduation Date : <?php echo $row['studentGrad'] ?></p>
                     <div>
                         <a href="" class="btn btn-primary">Contact</a>
-                        <a href="edit_student.php?id=<?php echo $row['idstudents'] ?>" class="btn btn-info">Edit</a>
-                        <a href="delete_student.php?id=<?php echo $row['idstudents'] ?>&idf=<?php echo $id ?>   " class="btn btn-danger">Delete</a>
+                        <?php
+                            if($_SESSION['Role'] == "admin"){
+                                echo '<a href="edit_student.php?id=<?php echo '.$row['idstudents'].' ?>" class="m-2 btn btn-info">Edit</a>';
+                                echo '<a href="delete_student.php?id=<?php echo'. $row['idstudents'].' ?>&idf=<?php echo $id ?>   " class="btn btn-danger">Delete</a>';
+                            }
+                        ?>
                     </div>
                 </div>
             </div>

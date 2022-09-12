@@ -79,3 +79,19 @@ body {
     margin: auto;
     padding-right: 15px;
 }
+
+.btn {
+    
+}
+
+@media only screen and (max-width: 568px) {
+    .ecpiLogo{
+        max-width: 50%;
+    }
+    .card{
+        margin: auto;
+        margin-top: 10px; 
+        margin-bottom: 10px; 
+        
+    }
+}

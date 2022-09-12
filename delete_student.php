@@ -1,7 +1,16 @@
 <?php 
-    include 'dbConnect.php';
+    session_start();
+
+    if (isset($_SESSION['User'])){
     
-    $sql1 = "SELECT * FROM `ecpiregistery`.`students` WHERE idstudents = $ids LIMIT 1";
+        include "dbConnect.php";
+        echo $_SESSION['Role'];
+    }
+    else {
+       header("Location:login.php?Empty= Please login to access");
+    }
+    
+    $sql1 = "SELECT * FROM `students` WHERE idstudents = $ids LIMIT 1";
     $result1 = mysqli_query($conn, $sql1);
     $row1 = mysqli_fetch_assoc($result1);
     $idfeild = $_GET['idf'];
@@ -9,7 +18,7 @@
 
     $ids =  $_GET['id'];
 
-    $sql = "DELETE FROM `ecpiregistery`.`students`
+    $sql = "DELETE FROM `students`
             WHERE `idstudents` = '$ids'; " ;
 
 

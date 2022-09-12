@@ -1,0 +1,149 @@
+
+html,body{
+background-image: url('./Assets/capgown silouete.jpeg');
+background-size: cover;
+background-repeat: no-repeat;
+height: 100%;
+background-position-x: center;
+ 
+}
+
+.container{
+height: 100%;
+align-content: center;
+
+
+}
+.container::before{
+    content: "";
+    background-image:  url('./Assets/ecpiseal.png');
+    background-size: 47%;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 0.25;
+    
+}
+
+.card{
+min-height: 380px;
+margin-top: auto;
+margin-bottom: auto;
+width: 400px;
+background-color: rgba(0,0,0,0.5) !important;
+}
+
+.social_icon span{
+font-size: 60px;
+margin-left: 10px;
+color: #FFC312;
+}
+
+.social_icon span:hover{
+color: white;
+cursor: pointer;
+}
+
+.card-header h3{
+color: white;
+}
+
+.social_icon{
+position: absolute;
+right: 20px;
+top: -45px;
+}
+
+.input-group-prepend span{
+width: 50px;
+background-color: #104ba0;
+color: rgb(255, 255, 255);
+border:0 !important;
+}
+
+input:focus{
+outline: 0 0 0 0  !important;
+box-shadow: 0 0 0 0 !important;
+
+}
+
+.remember{
+color: white;
+}
+
+.remember input
+{
+width: 20px;
+height: 20px;
+margin-left: 15px;
+margin-right: 5px;
+}
+
+.login_btn{
+color: white;
+background-color: #104ba0;
+width: 100px;
+}
+
+.login_btn:hover{
+color: #104ba0;
+background-color: white;
+}
+
+.links{
+color: white;
+
+}
+
+.links a{
+margin-left: 4px;
+
+}
+
+.ecpiseal{
+    display: flex;
+    width: 25%;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+@media only screen and (max-width: 568px) {
+    .container::before{
+        content: "";
+        background-image:  url('./Assets/ecpiseal.png');
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position-x: center;
+        position: absolute;
+        top: 15%;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        opacity: 0.25;
+    }
+
+}
+@media only screen and (max-width: 1200px ) {
+    @media only screen and (min-width: 568px ) {
+    .container::before{
+        content: "";
+        background-image:  url('./Assets/ecpiseal.png');
+        background-size: 60%;
+        background-repeat: no-repeat;
+        background-position-x: center;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        opacity: 0.25;
+    }
+}
+
+}
+

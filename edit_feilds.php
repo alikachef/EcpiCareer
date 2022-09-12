@@ -1,5 +1,14 @@
 <?php 
-include "dbConnect.php";
+session_start();
+
+if (isset($_SESSION['User'])){
+
+    include "dbConnect.php";
+    echo $_SESSION['Role'];
+}
+else {
+   header("Location:login.php?Empty= Please login to access");
+}
 $idf = $_GET['id'];
 
 if(isset($_POST['submit'])) {
@@ -20,7 +29,7 @@ if(isset($_POST['submit'])) {
     $feild_desc = $_POST['first_description'];
     
 
-    $sql = "UPDATE `ecpiregistery`.`feilds`
+    $sql = "UPDATE `feilds`
             SET
             `feildName` = '$feild_name',
             `feildImage` = '$img_content',
@@ -57,7 +66,7 @@ if(isset($_POST['submit'])) {
         <h2 class="p-2 text-white">Feilds Of Study</h2>
     </nav>
     <?php 
-        $sql = "SELECT * FROM `ecpiregistery`.`feilds` WHERE idfeilds = $idf LIMIT 1";
+        $sql = "SELECT * FROM `feilds` WHERE idfeilds = $idf LIMIT 1";
         $result = mysqli_query($conn, $sql);
         $row1 = mysqli_fetch_assoc($result);
     ?>

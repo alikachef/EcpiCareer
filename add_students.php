@@ -1,8 +1,18 @@
 <?php 
-include "dbConnect.php";
+session_start();
+
+if (isset($_SESSION['User'])){
+
+    include "dbConnect.php";
+    echo $_SESSION['Role'];
+}
+else {
+   header("Location:login.php?Empty= Please login to access");
+}
+
 $feild_id = $_GET['id'];
 
-$sql = "SELECT * FROM `ecpiregistery`.`students` ";
+$sql = "SELECT * FROM `students` ";
 $result = mysqli_query($conn, $sql);
 $id = 1;
 while ($row = mysqli_fetch_assoc($result)){
@@ -11,7 +21,7 @@ while ($row = mysqli_fetch_assoc($result)){
         $id += 1; 
     } 
 }
-echo $id;
+
 
 if(isset($_POST['submit'])) {
     
@@ -29,7 +39,7 @@ if(isset($_POST['submit'])) {
     $student_degree =$_POST['degree'];
     
 
-    $sql ="INSERT INTO `ecpiregistery`.`students`
+    $sql ="INSERT INTO `students`
     (`idstudents`, `studentName`,`studentImage`,`StudentDesc`,`studentDegree`,`studentGrad`,`feildID`)
     VALUES
     ('$student_id',

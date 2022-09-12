@@ -1,8 +1,18 @@
 <?php 
-include "dbConnect.php";
+session_start();
+
+if (isset($_SESSION['User'])){
+
+    include "dbConnect.php";
+    echo $_SESSION['Role'];
+}
+else {
+   header("Location:login.php?Empty= Please login to access");
+}
+
 $ids = $_GET['id'];
 
-$sql1 = "SELECT * FROM `ecpiregistery`.`students` WHERE idstudents = $ids LIMIT 1";
+$sql1 = "SELECT * FROM `students` WHERE idstudents = $ids LIMIT 1";
 $result1 = mysqli_query($conn, $sql1);
 $row1 = mysqli_fetch_assoc($result1);
 
@@ -22,7 +32,7 @@ if(isset($_POST['submit'])) {
     $student_degree =$_POST['degree'];
     $idfeild = $row1['feildID'];
 
-    $sql ="UPDATE `ecpiregistery`.`students`
+    $sql ="UPDATE `students`
     SET
     `studentName` = '$student_name',
     `studentImage` = '$img_content',
@@ -38,7 +48,7 @@ if(isset($_POST['submit'])) {
     $student_degree =$_POST['degree'];
     $idfeild = $row1['feildID'];
 
-    $sql ="UPDATE `ecpiregistery`.`students`
+    $sql ="UPDATE `students`
     SET
     `studentName` = '$student_name',
     `StudentDesc` = '$student_desc',

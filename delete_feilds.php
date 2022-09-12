@@ -1,7 +1,17 @@
 <?php 
-     include 'dbConnect.php';
+     session_start();
+
+     if (isset($_SESSION['User'])){
+     
+         include "dbConnect.php";
+         echo $_SESSION['Role'];
+     }
+     else {
+        header("Location:login.php?Empty= Please login to access");
+     }
+     
      $idf =  $_GET['id'];
-     $sql = "DELETE FROM `ecpiregistery`.`feilds`
+     $sql = "DELETE FROM `feilds`
              WHERE `idfeilds` = '$idf'; " ;
  
  

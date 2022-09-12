@@ -1,7 +1,16 @@
 <?php 
-include "dbConnect.php";
+session_start();
 
-$sql = "SELECT * FROM `ecpiregistery`.`feilds` ";
+if (isset($_SESSION['User'])){
+
+    include "dbConnect.php";
+    echo $_SESSION['Role'];
+}
+else {
+   header("Location:login.php?Empty= Please login to access");
+}
+
+$sql = "SELECT * FROM `feilds` ";
 $result = mysqli_query($conn, $sql);
 $id = 1;
 while ($row = mysqli_fetch_assoc($result)){
@@ -25,7 +34,7 @@ if(isset($_POST['submit'])) {
     $feild_desc = $_POST['first_description'];
     $feild_id = $id;
 
-    $sql ="INSERT INTO `ecpiregistery`.`feilds`
+    $sql ="INSERT INTO `feilds`
     (`idfeilds`, `feildName`, `feildImage`, `feildDesc`)
     VALUES ( '$feild_id','$feild_name', '$img_content', '$feild_desc')";
 
