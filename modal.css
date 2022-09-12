@@ -22,10 +22,9 @@
   
   /* The Close Button */
   .close-modal {
-    color: #aaa;
+    margin-left: 100px;
     float: right;
-    font-size: 28px;
-    font-weight: bold;
+    
 
   }
   

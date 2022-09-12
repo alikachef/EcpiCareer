@@ -84,7 +84,7 @@ session_start();
 						<input type="password" name="password" class="form-control" placeholder="password">
 					</div>
 					<div class="row align-items-center remember">
-						<input type="checkbox">Remember Me
+                        <a href="password_reset.php">Forgot Password?</a>
 					</div>
 					<div class="form-group">
 						<input type="submit" name="submit" value="Login" class="btn float-right login_btn">

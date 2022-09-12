@@ -11,7 +11,7 @@ else{
     console.log("false")
 }
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+var span = document.getElementsByClassName("close-modal")[0];
 
 // When the user clicks on the button, open the modal
 ubtn.onclick = function() {

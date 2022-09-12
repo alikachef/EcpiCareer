@@ -11,6 +11,10 @@ else {
 }
 $idf = $_GET['id'];
 
+$sql1 = "SELECT * FROM `feilds` WHERE idfeilds = $idf LIMIT 1";
+$result1 = mysqli_query($conn, $sql1);
+$row1 = mysqli_fetch_assoc($result1);
+
 if(isset($_POST['submit'])) {
     
     
@@ -65,11 +69,7 @@ if(isset($_POST['submit'])) {
     <nav class="navbar navbar-dark bg-dark">
         <h2 class="p-2 text-white">Feilds Of Study</h2>
     </nav>
-    <?php 
-        $sql = "SELECT * FROM `feilds` WHERE idfeilds = $idf LIMIT 1";
-        $result = mysqli_query($conn, $sql);
-        $row1 = mysqli_fetch_assoc($result);
-    ?>
+
     <div class="ecpi-form container d-flex justify-content-center">
         <form enctype="multipart/form-data" action="" method="post" style="width: 50vw; min-width:300px;">
             <div class="row">
