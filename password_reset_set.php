@@ -7,26 +7,30 @@ $result = mysqli_query($conn, $sql);
 if (isset($_POST["submit"])) {
     $email = $_GET['email'];
 
-    if ($_POST['password1'] == $_POST['password2']){
+    if ($_POST['password1'] == $_POST['password2']) {
         $password = $_POST['password1'];
+        if (strlen($password) > 8) {
 
-        $encrypt = password_hash($password, PASSWORD_BCRYPT);
-		$sql ="UPDATE `users`
-        SET
-        `password` = '$encrypt'
-        WHERE `email` = '$email'";
+            $encrypt = password_hash($password, PASSWORD_BCRYPT);
+            $sql = "UPDATE `users` SET `password` = '$encrypt' WHERE `email` = '$email'";
 
-    	$result = mysqli_query($conn, $sql);
+            $result = mysqli_query($conn, $sql);
 
-    	if($result){
-     		header("Location: login.php?msg=User Created successfully");
-    	}
-    	else{
-			header("location:password_reset_set.php?Empty=Something Went Wrong" . mysqli_error($conn));
+            if ($result) {
+                header("Location: login.php?msg=User Created successfully");
+            } else {
+                header("location:password_reset_set.php?Empty=Something Went Wrong" . mysqli_error($conn));
 
-    	}
-    
-}
+            }
+        } else {
+            header("Location: login.php?Empty=Passwprd Must be 8 or more characters");
+
+        }
+
+    } else {
+        header("Location: login.php?Empty=Password dont match");
+
+    }
 }
 
 ?>

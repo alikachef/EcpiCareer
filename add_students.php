@@ -4,7 +4,6 @@ session_start();
 if (isset($_SESSION['User'])){
 
     include "dbConnect.php";
-    echo $_SESSION['Role'];
 }
 else {
    header("Location:login.php?Empty= Please login to access");
@@ -31,6 +30,15 @@ if(isset($_POST['submit'])) {
     $fileType = pathinfo($fileName, PATHINFO_EXTENSION); 
     $image = $_FILES['image']['tmp_name']; 
     $img_content = addslashes(file_get_contents($image)); 
+    
+    if(!empty($_FILES['resume']['name'])){
+        $fileR = basename($_FILES["resume"]["name"]); 
+        $fileT = pathinfo($fileR, PATHINFO_EXTENSION); 
+        $res = $_FILES['resume']['tmp_name']; 
+        $res_content = addslashes(file_get_contents($res)); 
+
+
+    
 
     $student_name = $_POST['student_name'];
     $student_desc = $_POST['student_description'];
@@ -40,7 +48,14 @@ if(isset($_POST['submit'])) {
     
 
     $sql ="INSERT INTO `students`
-    (`idstudents`, `studentName`,`studentImage`,`StudentDesc`,`studentDegree`,`studentGrad`,`feildID`)
+    (`idstudents`,
+    `studentName`,
+    `studentImage`,
+    `StudentDesc`,
+    `studentDegree`,
+    `studentGrad`,
+    `feildID`,
+    `studentRes`)
     VALUES
     ('$student_id',
     '$student_name',
@@ -48,7 +63,8 @@ if(isset($_POST['submit'])) {
     '$student_desc',
     '$student_degree',
     '$student_graduate',
-    '$feild_id');
+    '$feild_id',
+    '$res_content');
     ";
 
     $result = mysqli_query($conn, $sql);
@@ -59,6 +75,7 @@ if(isset($_POST['submit'])) {
     else{
         echo "Failed: " . mysqli_error($conn);
     }
+}
     
 }
 }
@@ -73,12 +90,14 @@ if(isset($_POST['submit'])) {
     <!--BootStrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <link  rel="stylesheet" href="student.css?v=<?php echo time(); ?>" type="text/css">
-    <title>Document</title>
+    <link rel="icon" href="Assets/ecpiseal.png" />
+
+    <title>Ecpi Registery</title>
 </head>
 <body>
     <img class="ecpiLogo" src="./Assets/ECPI_Online.png"/>
     <nav class="navbar navbar-dark bg-dark">
-        <h2 class="p-2 text-white">Feilds Of Study</h2>
+        <h2 class="p-2 text-white">Add Student</h2>
     </nav>
     <div class="ecpi-form container d-flex justify-content-center">
         <form enctype="multipart/form-data" action="" method="post" style="width: 50vw; min-width:300px;">
@@ -92,7 +111,7 @@ if(isset($_POST['submit'])) {
             <div class="row">
                 <div class="col">
                     <label class="form-label">Student Name: </label>
-                    <input type="text" class="form-control" name="student_name" placeholder="Feild Of Study" />
+                    <input type="text" class="form-control" name="student_name" placeholder="Student Full Name" />
                 </div>
             </div>
 
@@ -100,6 +119,13 @@ if(isset($_POST['submit'])) {
                 <div class="col">
                     <label class="form-label">Student Short Description: </label>
                     <textarea rows="3" maxlength="110" class="form-control" name="student_description" placeholder="Student Short Description"></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label class="form-label">Student Resume: </label>
+                    <input type="file" class="mb-2 form-control" name="resume" />
                 </div>
             </div>
 

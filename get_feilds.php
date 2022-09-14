@@ -7,6 +7,24 @@ if (isset($_SESSION['User'])){
 else {
    header("Location:login.php?Empty= Please login to access");
 }
+
+if(isset($_POST['search'])){
+    $value_seach = $_POST['value_search'];
+    $query ="SELECT * FROM ecpiregistery.feilds where feildName like '%".$value_seach."%'";
+    $resultf = filterTable($query);
+}
+else{
+    $sql = "SELECT * FROM `feilds` ";
+    $resultf = filterTable($sql);
+}
+
+function filterTable($query){
+    include "dbConnect.php";
+
+    $resultu = mysqli_query($conn, $query);
+    return $resultu;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -16,6 +34,7 @@ else {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <!--BootStrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
@@ -23,7 +42,7 @@ else {
         integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" href="student.css?v=<?php echo time(); ?>" type="text/css">
     <link rel="stylesheet" href="modal.css?v=<?php echo time(); ?>" type="text/css">
-
+    <link rel="icon" href="Assets/ecpiseal.png" />
 
     <title>Ecpi Registery</title>
 </head>
@@ -31,15 +50,24 @@ else {
 <body>
     <img class="ecpiLogo" src="./Assets/ECPI_Online.png" />
     <nav class="navbar navbar-dark bg-dark">
-        <h2 class="p-2 text-white">Feilds Of Study</h2>
-        <div>
+        <h2 class="p-2 text-white">Fields Of Study</h2>
+        <div class=" formSearch">
+            <form action="" method="post">
+                <div class="input-group ">
+                    <input type="text" name="value_search" class=" form-control" placeholder="Search Field Name...">
+                    <div class="input-group-append">
+                        <button name="search" class="btn btn-outline-secondary" type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
             <?php
             if($_SESSION['Role'] == "admin"){
-                echo '<a href="add_feilds.php"  id="addButton" class="m-2 btn btn-success">Add a Feild</a>';
-                echo '<button   id="mybtn" class=" btn btn-primary text-white"><i class="fas fa-user-lock"></i></button>';
+                echo '<a href="add_feilds.php"  id="addButton" class="m-2 btn btn-success">Add Field</a>';
+                echo '<button   id="mybtn" class="m-2 btn btn-primary text-white"><i class="fas fa-user-lock"></i></button>';
             }
         ?>
             <a class="m-2 btn btn-outline-light" href="logout.php?logout">logout</a>
+
         </div>
     </nav>
     <div id="usermodal" class="user-modal">
@@ -54,7 +82,6 @@ else {
             <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <?php echo $row['username']?>
-                    <span class="badge badge-primary badge-pill">14</span>
                     <div>
                         <a href="edit_user.php?id=<?php echo $row['idusers']?>"
                             class="btn btn-success "><?php echo $row['role']?></a>
@@ -85,10 +112,8 @@ else {
         </div>
         <div class="ecpicards">
             <?php 
-            $sql = "SELECT * FROM `feilds` ";
-            $result = mysqli_query($conn, $sql);
 
-            while ($row = mysqli_fetch_assoc($result)){
+            while ($row = mysqli_fetch_assoc($resultf)){
         ?>
             <div class="card" style="width: 18rem;">
                 <div class="imagecontainer">
@@ -99,13 +124,14 @@ else {
                     <h5 class="card-title"><?php echo $row['feildName'] ?></h5>
                     <p class="carddesc card-text"> <?php echo $row['feildDesc'] ?> </p>
                     <div>
-                        <a href="get_students.php?id=<?php echo $row['idfeilds'] ?>"
+                        <a href="get_students.php?id=<?php echo $row['idfeilds'] ?>&fname=<?php echo $row['feildName']?>"
                             class="btn btn-primary">Students</a>
+
                         <?php
                             if($_SESSION['Role'] == "admin"){
-                                echo '<a href="edit_feilds.php?id=<?php echo '.$row['idfeilds'].' ?>" class="m-2 btn
+                                echo '<a href="edit_feilds.php?id='.$row['idfeilds'].'" class="m-2 btn
                         btn-info">Edit</a>';
-                        echo '<a href="delete_feilds.php?id=<?php echo ' . $row['idfeilds']. ' ?>"
+                        echo '<a href="delete_feilds.php?id='.$row['idfeilds'].'"
                             class="btn btn-danger">Delete</a>';
                         }
                         ?>

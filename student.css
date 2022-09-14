@@ -80,9 +80,20 @@ body {
     padding-right: 15px;
 }
 
-.btn {
-    
+.resume{
+    display: flex;
+    margin: auto;
+    width: 90%;
+    height: 90%;
+    border-bottom: 5px solid black;
 }
+
+.formSearch{
+    display: flex;
+
+
+}
+
 
 @media only screen and (max-width: 568px) {
     .ecpiLogo{
@@ -93,5 +104,8 @@ body {
         margin-top: 10px; 
         margin-bottom: 10px; 
         
+    }
+    .formSearch{
+        margin: auto;
     }
 }

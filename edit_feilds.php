@@ -5,19 +5,21 @@ if (isset($_SESSION['User'])){
 
     include "dbConnect.php";
     echo $_SESSION['Role'];
+    $idf = $_GET['id'];
+
+    
 }
 else {
    header("Location:login.php?Empty= Please login to access");
 }
-$idf = $_GET['id'];
 
-$sql1 = "SELECT * FROM `feilds` WHERE idfeilds = $idf LIMIT 1";
-$result1 = mysqli_query($conn, $sql1);
-$row1 = mysqli_fetch_assoc($result1);
+    $sql1 = "SELECT * FROM `feilds` WHERE `idfeilds` = '$idf' LIMIT 1";
+    
+    $result1 = mysqli_query($conn, $sql1);
+    $row1 = mysqli_fetch_assoc($result1);
+
 
 if(isset($_POST['submit'])) {
-    
-    
     if(!empty($_FILES["image"]["name"])){
 
         $fileName = basename($_FILES["image"]["name"]); 

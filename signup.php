@@ -1,51 +1,56 @@
-<?php 
+<?php
 include "dbConnect.php";
 
 $sql = "SELECT * FROM `users` ";
 $result = mysqli_query($conn, $sql);
 $id = 1;
-while ($row = mysqli_fetch_assoc($result)){
-    if(intval($row['idusers']) >= $id){
-        $id= intval($row['idusers']);
-        $id += 1; 
-    } 
+while ($row = mysqli_fetch_assoc($result)) {
+    if (intval($row['idusers']) >= $id) {
+        $id = intval($row['idusers']);
+        $id += 1;
+    }
 }
 
-if(isset($_POST['submit'])){
-	$email = $_POST['email'];
-	$username = $_POST['username'];
-	$password = $_POST['password'];
-	if(!empty($email) || !empty($username) || !empty($password)){
-		$encrypt = password_hash($password, PASSWORD_BCRYPT);
-		$sql ="INSERT INTO `users`
-		(`idusers`,
-		`email`,
-		`username`,
-		`password`,
-		`role`)
-		VALUES
-		('$id',
-		'$email',
-		'$username',
-		'$encrypt',
-		'user');
-		";
+if (isset($_POST['submit'])) {
+    $email = $_POST['email'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    if (!empty($email) || !empty($username) || !empty($password)) {
+        if (strpos($email, "@") !== false && strpos($email, ".") !== false) {
+            if (strlen($username) >= 8) {
+                if (strlen($password) >= 8) {
+                    $encrypt = password_hash($password, PASSWORD_BCRYPT);
 
-    	$result = mysqli_query($conn, $sql);
+                    $sql = "INSERT INTO `users`(`idusers`,`email`,`username`,`password`,`role`)
+		VALUES ('$id','$email','$username','$encrypt','user');";
 
-    	if($result){
-     		header("Location: login.php?msg=User Created successfully");
-    	}
-    	else{
-			header("location:signup.php?Empty=Something Went Wrong" . mysqli_error($conn));
+                    $result = mysqli_query($conn, $sql);
 
-    	}
-	}
-	else
-	{
-		header("location:signup.php?Empty= All Feilds are reqired");
+                    if ($result) {
+                        header("Location: login.php?msg=User Created successfully");
+                    } else {
+                        header("location:signup.php?Empty=Something Went Wrong" . mysqli_error($conn));
 
-	}
+                    }
+                } else {
+                    header("location:signup.php?Empty=Password Must be more than 8 charachters");
+                }
+            } else {
+                header("location:signup.php?Empty=Username Must be more than 8 charachters");
+            }
+        } else {
+            header("location:signup.php?Empty=Invalid Email");
+        }
+
+    } else {
+        header("location:signup.php?Empty= All Feilds are reqired");
+
+    }
+}
+
+function validate($email, $username, $password)
+{
+
 }
 
 ?>
@@ -76,15 +81,15 @@ if(isset($_POST['submit'])){
 			</div>
 			<div class="card-body">
 			<div class="ecpialert">
-                <?php 
-                    if(isset($_GET['Empty'])){
-                        $msg = $_GET['Empty'];
-                        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Failed</strong> '.$msg.'
+                <?php
+if (isset($_GET['Empty'])) {
+    $msg = $_GET['Empty'];
+    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Failed</strong> ' . $msg . '
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>';
-                    }
-                ?>
+}
+?>
             </div>
 				<form action="" method="post" >
 					<div class="input-group form-group">
@@ -115,9 +120,9 @@ if(isset($_POST['submit'])){
 					Have an account?<a href="login.php">Sign In</a>
 				</div>
 			</div>
-		
+
 		</div>
-		
+
 	</div>
 </div>
 

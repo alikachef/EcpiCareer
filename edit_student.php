@@ -1,73 +1,85 @@
-<?php 
+<?php
 session_start();
 
-if (isset($_SESSION['User'])){
+if (isset($_SESSION['User'])) {
 
     include "dbConnect.php";
     echo $_SESSION['Role'];
-}
-else {
-   header("Location:login.php?Empty= Please login to access");
+} else {
+    header("Location:login.php?Empty= Please login to access");
 }
 
 $ids = $_GET['id'];
 
-$sql1 = "SELECT * FROM `students` WHERE idstudents = $ids LIMIT 1";
+$sql1 = "SELECT * FROM `students` WHERE `idstudents` = '$ids' LIMIT 1";
 $result1 = mysqli_query($conn, $sql1);
 $row1 = mysqli_fetch_assoc($result1);
 
+if (isset($_POST['submit'])) {
 
-if(isset($_POST['submit'])) {
-    
-    if(!empty($_FILES["image"]["name"])){
+    if (!empty($_FILES["image"]["name"])) {
 
-    $fileName = basename($_FILES["image"]["name"]); 
-    $fileType = pathinfo($fileName, PATHINFO_EXTENSION); 
-    $image = $_FILES['image']['tmp_name']; 
-    $img_content = addslashes(file_get_contents($image)); 
-    
-    $student_name = $_POST['student_name'];
-    $student_desc = $_POST['student_description'];
-    $student_graduate = $_POST['student_gradute'];
-    $student_degree =$_POST['degree'];
-    $idfeild = $row1['feildID'];
+        $fileName = basename($_FILES["image"]["name"]);
+        $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
+        $image = $_FILES['image']['tmp_name'];
+        $img_content = addslashes(file_get_contents($image));
 
-    $sql ="UPDATE `students`
+        if (!empty($_FILES['resume']['name'])) {
+            $fileR = basename($_FILES["resume"]["name"]);
+            $fileT = pathinfo($fileR, PATHINFO_EXTENSION);
+            $res = $_FILES['resume']['tmp_name'];
+            $res_content = addslashes(file_get_contents($res));
+        } else {
+            $res_content = $_POST['resumev'];
+        }
+        $student_name = $_POST['student_name'];
+        $student_desc = $_POST['student_description'];
+        $student_graduate = $_POST['student_gradute'];
+        $student_degree = $_POST['degree'];
+        $idfeild = $row1['feildID'];
+
+        $sql = "UPDATE `students`
     SET
     `studentName` = '$student_name',
     `studentImage` = '$img_content',
     `StudentDesc` = '$student_desc',
     `studentDegree` = '$student_degree',
-    `studentGrad` = '$student_graduate'
+    `studentGrad` = '$student_graduate',
+    `studentRes` = '$res_content'
     WHERE `idstudents` = '$ids';";
-}
-    else {
-    $student_name = $_POST['student_name'];
-    $student_desc = $_POST['student_description'];
-    $student_graduate = $_POST['student_gradute'];
-    $student_degree =$_POST['degree'];
-    $idfeild = $row1['feildID'];
+    } else {
+        if (!empty($_FILES['resume']['name'])) {
+            $fileR = basename($_FILES["resume"]["name"]);
+            $fileT = pathinfo($fileR, PATHINFO_EXTENSION);
+            $res = $_FILES['resume']['tmp_name'];
+            $res_content = addslashes(file_get_contents($res));
+        } else {
+            $res_content = $_POST['resumev'];
+        }
+        $student_name = $_POST['student_name'];
+        $student_desc = $_POST['student_description'];
+        $student_graduate = $_POST['student_gradute'];
+        $student_degree = $_POST['degree'];
+        $idfeild = $row1['feildID'];
 
-    $sql ="UPDATE `students`
+        $sql = "UPDATE `students`
     SET
     `studentName` = '$student_name',
     `StudentDesc` = '$student_desc',
     `studentDegree` = '$student_degree',
-    `studentGrad` = '$student_graduate'
+    `studentGrad` = '$student_graduate',
+    `studentRes` = '$res_content'
     WHERE `idstudents` = '$ids';";
-    }  
-
-    
+    }
 
     $result = mysqli_query($conn, $sql);
 
-    if($result){
+    if ($result) {
         header("Location: get_students.php?id=$idfeild&msg=New record created successfully");
-    }
-    else{
+    } else {
         echo "Failed: " . mysqli_error($conn);
     }
-    
+
 }
 
 ?>
@@ -88,7 +100,7 @@ if(isset($_POST['submit'])) {
     <nav class="navbar navbar-dark bg-dark">
         <h2 class="p-2 text-white">Feilds Of Study</h2>
     </nav>
-   
+
     <div class="ecpi-form container d-flex justify-content-center">
         <form enctype="multipart/form-data" action="" method="post" style="width: 50vw; min-width:300px;">
             <div class="row">
@@ -98,7 +110,7 @@ if(isset($_POST['submit'])) {
                     <input type="file" class="form-control" name="image" />
                 </div>
             </div>
-        
+
             <div class="row">
                 <div class="col">
                     <label class="form-label">Student Name: </label>
@@ -110,6 +122,13 @@ if(isset($_POST['submit'])) {
                 <div class="col">
                     <label class="form-label">Student Short Description: </label>
                     <textarea type="textbox" rows="3" maxlength="110" class="form-control" name="student_description" ><?php echo $row1['StudentDesc'] ?></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label class="form-label">Student Resume: </label>
+                    <input type="file"  class="mb-2 form-control" name="resume" />
                 </div>
             </div>
 
@@ -136,7 +155,7 @@ if(isset($_POST['submit'])) {
         </form>
     </div>
 
-    
+
 
     <!--BootStrap-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
